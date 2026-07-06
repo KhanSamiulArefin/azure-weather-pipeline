@@ -24,4 +24,5 @@ jobs:
       - name: Run ETL Script
         env:
           AZURE_CONNECTION_STRING: ${{ secrets.AZURE_CONNECTION_STRING }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python weather_pipeline.py
