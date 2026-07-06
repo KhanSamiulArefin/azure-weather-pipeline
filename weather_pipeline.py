@@ -40,7 +40,7 @@ def transform_and_load_to_sql(weather_data):
     """Transforms JSON to a structured format and loads into PostgreSQL (Silver Layer)."""
     print("Transforming data for SQL...")
     
-    # 1. Transform: Extract only the current_weather metrics into a list of dictionaries
+    # Extract only the specific metrics we care about
     current = weather_data['current_weather']
     clean_data = [{
         'observation_time': current['time'],
@@ -49,17 +49,17 @@ def transform_and_load_to_sql(weather_data):
         'is_day': current['is_day']
     }]
     
-    # Convert to a Pandas DataFrame
+    # Convert to a Pandas DataFrame (a structured table)
     df = pd.DataFrame(clean_data)
     
-    # 2. Load: Connect to PostgreSQL
+    # Connect to PostgreSQL using the secret URL
     db_url = os.getenv("DATABASE_URL")
     if not db_url:
         raise ValueError("DATABASE_URL environment variable not found!")
         
     engine = create_engine(db_url)
     
-    # Append the DataFrame to the SQL table (creates the table automatically if it doesn't exist)
+    # Send the table to the SQL database!
     print("Loading data into PostgreSQL Database...")
     df.to_sql('london_weather_metrics', con=engine, if_exists='append', index=False)
     print("Success! Clean data loaded to SQL Data Warehouse.")
