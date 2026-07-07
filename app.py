@@ -2,7 +2,10 @@ import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
 import os
+import os
+from dotenv import load_dotenv # Import this
 
+load_dotenv() # Add this line to force Python to read your .env file
 st.set_page_config(page_title="Weather Dashboard", layout="wide")
 
 st.title("Weather Analytics Dashboard")
